@@ -53,4 +53,42 @@ describe('grafanaSingleStat', function() {
       expect(getColorForValue(data, -26)).to.be('yellow');
     });
   });
+
+  describe('string thresholds', () => {
+    var data: any = {
+      colorMap : ['green', 'yellow', 'red'],
+      thresholds : [/value1/, /value2/]
+    };
+
+    it('"other" should be green', () => {
+      expect(getColorForValue(data, 'other')).to.be('green');
+    });
+
+    it('"value1" should be yellow', () => {
+      expect(getColorForValue(data, 'value1')).to.be('yellow');
+    });
+
+    it('"value2" should be red', () => {
+      expect(getColorForValue(data, 'value2')).to.be('red');
+    });
+  });
+
+  describe('string thresholds with multiple matches', () => {
+    var data: any = {
+      colorMap : ['green', 'yellow', 'red'],
+      thresholds : [/val/, /v.*[^e]$/]
+    };
+
+    it('"other" should be green', () => {
+      expect(getColorForValue(data, 'other')).to.be('green');
+    });
+
+    it('"value" should be red', () => {
+      expect(getColorForValue(data, 'value')).to.be('yellow');
+    });
+
+    it('"val" should be red', () => {
+      expect(getColorForValue(data, 'val')).to.be('red');
+    });
+  });
 });
