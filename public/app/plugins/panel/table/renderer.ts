@@ -148,7 +148,6 @@ export class TableRenderer {
   render(page) {
     let pageSize = this.panel.pageSize || 100;
     let startPos = page * pageSize;
-    let rowLink = this.panel.rowLink;
     var html = "";
 
     if (this.panel.transpose) {
@@ -177,6 +176,7 @@ export class TableRenderer {
         let row = this.table.rows[y];
         let cellHtml = '';
         let rowStyle = '';
+        let rowLink = this.panel.rowLink;
 
         if (rowLink) {
           for (var i = 0; i < this.table.columns.length; i++) {
