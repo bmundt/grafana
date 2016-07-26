@@ -141,7 +141,7 @@ export class TableRenderer {
         for (var i = 0; i < this.table.columns.length; i++) {
           rowLink = rowLink.replace('$' + this.table.columns[i].text, _.escape(row[i]));
         }
-      }      
+      }
 
       for (var i = 0; i < this.table.columns.length; i++) {
         cellHtml += this.renderCell(i, row[i], y === startPos, rowLink);
