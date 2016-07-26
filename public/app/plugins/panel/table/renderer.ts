@@ -100,9 +100,13 @@ export class TableRenderer {
     return this.formaters[colIndex](value);
   }
 
-  renderCell(columnIndex, value, addWidthHack = false) {
+  renderCell(columnIndex, value, addWidthHack = false, rowLink = '') {
     value = this.formatColumnValue(columnIndex, value);
     var style = '';
+
+    if (rowLink !== '') {
+      value = '<a href="' + rowLink + '" target="_new">' + value + '</a>';
+    }
     if (this.colorState.cell) {
       style = ' style="background-color:' + this.colorState.cell + ';color: white"';
       this.colorState.cell = null;
@@ -132,8 +136,18 @@ export class TableRenderer {
       let row = this.table.rows[y];
       let cellHtml = '';
       let rowStyle = '';
+      let rowLink = this.panel.rowLink;
+
+
+      if (rowLink) {
+        for (var i = 0; i < this.table.columns.length; i++) {
+          rowLink = rowLink.replace('$' + this.table.columns[i].text, _.escape(row[i]));
+        }
+      }
+
+
       for (var i = 0; i < this.table.columns.length; i++) {
-        cellHtml += this.renderCell(i, row[i], y === startPos);
+        cellHtml += this.renderCell(i, row[i], y === startPos, rowLink);
       }
 
       if (this.colorState.row) {
