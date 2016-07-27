@@ -63,6 +63,23 @@
 				</ul>
 				<div class="clearfix"></div>
 			</div>
+      <div class="tight-form">
+        <ul class="tight-form-list" ng-if="editor.panel.transform === 'table'">
+          <li class="tight-form-item">
+            <editor-checkbox text="Enable search" model="editor.panel.search"
+                             change="editor.render()"></editor-checkbox>
+          </li>
+          <li class="tight-form-item">
+            <editor-checkbox text="Show Header" model="editor.panel.showHeader"
+                             change="editor.render()"></editor-checkbox>
+          </li>
+          <li class="tight-form-item">
+            <editor-checkbox text="Transpose" model="editor.panel.transpose"
+                             change="editor.render()"></editor-checkbox>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
 		</div>
 	</div>
 </div>

@@ -148,12 +148,29 @@ transformers['table'] = {
       return;
     }
 
+    var tableRows = data[0].rows;
+    var filterColumnIndex = -1;
+    var filteringEnabled = panel.filter.column && panel.filter.query && panel.search;
+
     if (data[0].type !== 'table') {
       throw {message: 'Query result is not in table format, try using another transform.'};
     }
 
+    for ( let k = 0; k < data[0].columns.length; k++) {
+      var columnFound = false;
+      if (filteringEnabled && panel.filter.column.text === data[0].columns[k].text) {
+        filterColumnIndex = k;
+      }
+    }
+
+    if (filterColumnIndex !== -1 && filteringEnabled) {
+      tableRows = _.filter(tableRows, function(row) {
+        return ('' + row[filterColumnIndex]).toLowerCase().match(panel.filter.query.toLowerCase());
+      });
+    }
+
     model.columns = data[0].columns;
-    model.rows = data[0].rows;
+    model.rows = tableRows;
   }
 };
 

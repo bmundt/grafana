@@ -40,6 +40,7 @@ class TablePanelCtrl extends MetricsPanelCtrl {
     ],
     rowLink: '',
     columns: [],
+    filter: {column: null, query: ''},
     scroll: true,
     fontSize: '100%',
     sort: {col: 0, desc: true},
@@ -65,6 +66,7 @@ class TablePanelCtrl extends MetricsPanelCtrl {
     this.events.on('data-snapshot-load', this.onDataReceived.bind(this));
     this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
     this.events.on('init-panel-actions', this.onInitPanelActions.bind(this));
+    $scope.$on('filter', this.onFilter.bind(this));
   }
 
   onInitEditMode() {
@@ -86,6 +88,11 @@ class TablePanelCtrl extends MetricsPanelCtrl {
     }
 
     return super.issueQueries(datasource);
+  }
+
+  onFilter(event, filter) {
+    this.panel.filter = filter;
+    this.render();
   }
 
   onDataError(err) {
