@@ -187,7 +187,7 @@ class SingleStatCtrl extends MetricsPanelCtrl {
       var lastPoint = _.last(this.series[0].datapoints);
       var lastValue = _.isArray(lastPoint) ? lastPoint[0] : null;
 
-      if (_.isString(lastValue)) {
+      if (lastValue && _.isString(lastValue)) {
         data.value = 0;
         data.valueFormated = lastValue;
         data.valueRounded = 0;
