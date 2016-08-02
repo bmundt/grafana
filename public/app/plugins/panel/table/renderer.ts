@@ -149,11 +149,13 @@ export class TableRenderer {
       widthHack = '<div class="table-panel-width-hack">' + this.table.columns[columnIndex].text + '</div>';
     }
 
-    if (value === undefined && columnIndex >= 0) {
-      style = ' style="display:none;"';
-      this.table.columns[columnIndex].hidden = true;
-    } else {
-      this.table.columns[columnIndex].hidden = false;
+    if (columnIndex >= 0) {
+      if (value === undefined) {
+        style = ' style="display:none;"';
+        this.table.columns[columnIndex].hidden = true;
+      } else {
+        this.table.columns[columnIndex].hidden = false;
+      }
     }
 
     return '<td' + style + '>' + value + widthHack + '</td>';
