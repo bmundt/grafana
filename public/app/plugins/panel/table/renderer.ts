@@ -193,8 +193,7 @@ export class TableRenderer {
         let row = this.table.rows[y];
         let cellHtml = '';
         let rowStyle = '';
-        let rowLink = this.panel.rowLink;
-
+        let rowLink = this.panel.templateSrv.replace(this.panel.rowLink, this.panel.scopedVars);
 
         if (rowLink) {
           for (var i = 0; i < this.table.columns.length; i++) {

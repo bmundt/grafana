@@ -52,6 +52,7 @@ class TablePanelCtrl extends MetricsPanelCtrl {
   constructor($scope, $injector, private annotationsSrv, private $sanitize) {
     super($scope, $injector);
     this.pageIndex = 0;
+    this.panel.templateSrv = this.templateSrv;
 
     if (this.panel.styles === void 0) {
       this.panel.styles = this.panel.columns;
