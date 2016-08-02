@@ -149,7 +149,7 @@ export class TableRenderer {
       widthHack = '<div class="table-panel-width-hack">' + this.table.columns[columnIndex].text + '</div>';
     }
 
-    if (value === undefined) {
+    if (value === undefined && columnIndex > 0) {
       style = ' style="display:none;"';
       this.table.columns[columnIndex].hidden = true;
     } else {
