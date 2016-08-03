@@ -197,7 +197,8 @@ export class TableRenderer {
 
         if (rowLink) {
           for (var i = 0; i < this.table.columns.length; i++) {
-            rowLink = rowLink.replace('$' + this.table.columns[i].text, _.escape(row[i]));
+            rowLink = rowLink.replace(new RegExp("\\$" + this.table.columns[i].text, "g"),
+              _.escape(row[i]));
           }
         }
 
