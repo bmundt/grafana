@@ -116,6 +116,7 @@ export class TableRenderer {
       let style = this.panel.styles[i];
       let column = this.table.columns[colIndex];
       var regex = kbn.stringToJsRegex(style.pattern);
+      column.style = style;
       if (column.text.match(regex)) {
         this.formaters[colIndex] = this.createColumnFormater(style, column);
         return this.formaters[colIndex](value);
@@ -130,9 +131,6 @@ export class TableRenderer {
     value = this.formatColumnValue(columnIndex, value);
     var style = '';
 
-    if (rowLink !== '') {
-      value = '<a href="' + rowLink + '" target="_new">' + value + '</a>';
-    }
     if (this.colorState.cell) {
       style = ' style="background-color:' + this.colorState.cell + ';color: white"';
       this.colorState.cell = null;
@@ -155,6 +153,9 @@ export class TableRenderer {
         this.table.columns[columnIndex].hidden = true;
       } else {
         this.table.columns[columnIndex].hidden = false;
+        if (rowLink !== '') {
+          value = '<a href="' + rowLink + '" target="_new">' + value + '</a>';
+        }
       }
     }
 
@@ -202,7 +203,6 @@ export class TableRenderer {
           }
         }
 
-
         for (var i = 0; i < this.table.columns.length; i++) {
           cellHtml += this.renderCell(i, row[i], y === startPos, rowLink);
         }
@@ -215,7 +215,6 @@ export class TableRenderer {
         html += '<tr ' + rowStyle + '>' + cellHtml + '</tr>';
       }
     }
-
     return html;
   }
 }

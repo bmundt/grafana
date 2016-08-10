@@ -5,6 +5,7 @@ import moment from 'moment';
 import flatten from '../../../core/utils/flatten';
 import TimeSeries from '../../../core/time_series2';
 import TableModel from '../../../core/table_model';
+import kbn from 'app/core/utils/kbn';
 
 var transformers = {};
 
@@ -157,7 +158,6 @@ transformers['table'] = {
     }
 
     for ( let k = 0; k < data[0].columns.length; k++) {
-      var columnFound = false;
       if (filteringEnabled && panel.filter.column.text === data[0].columns[k].text) {
         filterColumnIndex = k;
       }
@@ -235,6 +235,26 @@ transformers['json'] = {
   }
 };
 
+function applyAliasing(panel, model){
+  if (!panel.styles) {
+    return;
+  }
+  var hash = [];
+  for (var i = 0; i < model.columns.length; i++) {
+    for (var j = 0; j < panel.styles.length; j++) {
+      var regex = kbn.stringToJsRegex(panel.styles[j].pattern);
+      if (!hash[i]) {
+        if (panel.styles[j].alias && model.columns[i].text.match(regex)) {
+          model.columns[i].alias = model.columns[i].text.replace(regex, panel.styles[j].alias);
+        } else {
+          model.columns[i].alias = "";
+        }
+        hash[i] = model.columns[i].alias;
+      }
+    }
+  }
+}
+
 function transformDataToTable(data, panel) {
   var model = new TableModel();
 
@@ -248,6 +268,7 @@ function transformDataToTable(data, panel) {
   }
 
   transformer.transform(data, panel, model);
+  applyAliasing(panel,model);
   return model;
 }
 
